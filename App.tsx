@@ -1,118 +1,65 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import 'react-native-gesture-handler'
+import React, { useEffect } from 'react'
+import Home from './screens/Home'
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import firebase from './firebaseDB';
+import FirebaseState from './context/firebase/firebaseState';
+import PrestamoState from './context/prestamos/prestamosState';
+import BooksCatalog from './screens/BookCatalog';
+import BookDetail from './screens/BookDetail';
+import PrestarLibro from './screens/Prestar';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const Stack = createStackNavigator();
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+  useEffect(() => {
+    const testDatabaseConnection = async () => {
+      try {
+        await firebase.db;
+        console.log('Conexión a la base de datos exitosa');
+      } catch (error) {
+        console.error('Error al conectar a la base de datos:', error);
+      }
+    };
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+    testDatabaseConnection();
+  }, []);
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <FirebaseState>
+      <PrestamoState>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle:{
+                backgroundColor: '#ffe29a'
+              },
+              headerTitleStyle:{
+                fontWeight: 'bold',
+                color: '#411f2d',
+              },
+
+              //Se ha habilitado la navegación por gestos deslizando horizontalmente.
+              gestureEnabled: true,
+              gestureDirection: 'horizontal',
+              headerTitleAlign: 'left'
+            }}>
+            <Stack.Screen name="BooksCatalog" component={BooksCatalog} 
+              options={{title: 'Catalogo de Libros'}} 
+            />
+            <Stack.Screen name="BookDetail" component={BookDetail} 
+              options={{title: 'Detalle del Libro'}} 
+            />
+            <Stack.Screen name="PrestarLibro" component={PrestarLibro} 
+              options={{title: 'Prestamo de Libro'}} 
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PrestamoState>
+    </FirebaseState>  
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
