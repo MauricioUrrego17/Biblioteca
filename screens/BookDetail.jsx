@@ -3,10 +3,13 @@ import { View, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Card, Text, Divider, Button } from 'react-native-paper';
 import PrestamoContext from '../context/prestamos/prestamosContext';
+import { useNavigation } from '@react-navigation/native';
+
 
 const DetalleLibro = () => {
   const { libro } = useContext(PrestamoContext);
   const { imagen, autor, nombre, estado, sinopsis } = libro;
+  const navigation = useNavigation();
 
   const ParseBooleanToString = (estado) => {
     if(estado === true){
@@ -22,10 +25,10 @@ const DetalleLibro = () => {
         <Card style={styles.card}>
           <Card.Cover source={{ uri: imagen }} style={styles.cardCover} />
           <Card.Content style={styles.cardContent}>
-            <Text variant="titleLarge" style={styles.carName}>
+            <Text variant="titleLarge" style={styles.bookName}>
               {nombre}
             </Text>
-            <Text style={styles.carName}>
+            <Text style={styles.bookName}>
               {autor}
             </Text>
             <Text variant='titleMedium' style={{ color: estado ? 'green' : 'red', fontWeight: '900', marginBottom: 8}}>
@@ -75,23 +78,11 @@ const styles = StyleSheet.create({
   cardContent: {
     padding: 16,
   },
-  carName: {
+  bookName: {
     fontWeight: 'bold',
     fontSize: 24,
     color: '#333333',
     marginBottom: 8,
-  },
-  price: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: '#3B63A8',
-    marginBottom: 16,
-  },
-  brandAvatar: {
-    backgroundColor: '#7ab317',
-    marginLeft: 4,
-    width: 100,
-    borderRadius: 16,
   },
   divider: {
     marginVertical: 16,
@@ -114,15 +105,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 24,
     backgroundColor: '#411f2d',
-    elevation: 2,
-  },
-  button1: {
-    margin: 5,
-    marginHorizontal: 8,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 24,
-    backgroundColor: '#5C6972',
     elevation: 2,
   },
 });

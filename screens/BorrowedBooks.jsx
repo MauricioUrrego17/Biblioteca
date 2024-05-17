@@ -5,23 +5,33 @@ import { Avatar, Button, Card, Text, Searchbar, Title } from 'react-native-paper
 import FirebaseContext from '../context/firebase/firebaseContext';
 import PrestamoContext from '../context/prestamos/prestamosContext';
 
-const BooksCatalog = () => {
+const BorrowedBook = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { librosCatalogo, obtenerLibros } = useContext(FirebaseContext); // Utiliza el contexto de Firebase para obtener los datos
+  const { librosPrestados, obtenerLibrosPrestados } = useContext(FirebaseContext); // Utiliza el contexto de Firebase para obtener los datos
   const { seleccionarLibro } = useContext(PrestamoContext);
   const navigation = useNavigation();
 
   useEffect(() => {
-    obtenerLibros();
+    obtenerLibrosPrestados();
   }, []);
 
-  const filteredCars = librosCatalogo.filter((libro) =>
-    libro.nombre.toLowerCase().includes(searchQuery && searchQuery.toLowerCase()) ||
-    libro.autor.toLowerCase().includes(searchQuery && searchQuery.toLowerCase())
+  const filteredCars = librosPrestados.filter((libroPrestado) =>
+    libroPrestado.nombreLibro.toLowerCase().includes(searchQuery && searchQuery.toLowerCase()) ||
+    libroPrestado.nombre.toLowerCase().includes(searchQuery && searchQuery.toLowerCase())  ||
+    libroPrestado.apellido.toLowerCase().includes(searchQuery && searchQuery.toLowerCase())  ||
+    libroPrestado.identificacion.toLowerCase().includes(searchQuery && searchQuery.toLowerCase())
   );
 
   const handleSearch = (query) => {
     setSearchQuery(query);
+  };
+
+  const devolucion = (libro) => {
+    if (libro.devolucion === true) {
+      return "Devuelto";
+    } else {
+      return "Sin devolver";
+    }
   };
 
   return (
@@ -33,27 +43,31 @@ const BooksCatalog = () => {
           value={searchQuery}
           style={styles.searchBar}
         />
-        {filteredCars.map((libro, index) => (
-          <React.Fragment key={libro.id}>
-            <Card key={libro.id} mode="outlined" style={styles.card}>
+        {filteredCars.map((libroPrestado, index) => (
+          <React.Fragment key={libroPrestado.id}>
+            <Card key={libroPrestado.id} mode="elevated" style={styles.card}>
               <Card.Content>
-                <Text variant="titleLarge">{libro.nombre}</Text>
-                <Text variant="bodyMedium">Autor: {libro.autor}</Text>
+                <Text variant="titleLarge" style={{marginTop: -10}}>{libroPrestado.nombreLibro}</Text>
+                <Text variant="bodyMedium">Autor: {libroPrestado.autorLibro}</Text>
+                <Text variant="bodyMedium">Nombre: {libroPrestado.nombre}</Text>
+                <Text variant="bodyMedium">Apellido: {libroPrestado.apellido}</Text>
+                <Text variant="bodyMedium">Identificacion: {libroPrestado.identificacion}</Text>
+                <Text variant="bodyMedium">Devolucion: {devolucion(libroPrestado)}</Text>
               </Card.Content>
-              <Card.Cover source={{ uri: libro.imagen }} style={styles.cardImage} />
-              <Card.Actions>
+              {libroPrestado.devolucion === false && (
+                <Card.Actions>
                 <Button
                   mode="elevated"
                   buttonColor="#411f2d"
                   textColor="white"
                   onPress={() => {
-                    seleccionarLibro(libro);
-                    navigation.navigate('BookDetail');
+                    console.log('Libro devuelto' + libroPrestado.orden, libroPrestado.nombre)
                   }}
                 >
-                  Más información
+                  Devolver
                 </Button>
               </Card.Actions>
+              )}
             </Card>
           </React.Fragment>
         ))}
@@ -65,10 +79,10 @@ const BooksCatalog = () => {
             textColor='white'
             style={styles.button}
             onPress={() => {
-              navigation.navigate('BorrowedBook');
+              navigation.navigate('BooksCatalog');
             }}
           >
-            <Text>Libros Prestados</Text>
+            <Text>Libros</Text>
           </Button>
         </View>
       </ScrollView>
@@ -86,9 +100,8 @@ const styles = StyleSheet.create({
     color: '#411f2d'
   },
   card: {
-    margin: 10,
-  },
-  cardImage: {
+    padding: 10,
+    marginTop: 5,
     margin: 10,
   },
   button: {
@@ -110,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BooksCatalog;
+export default BorrowedBook;

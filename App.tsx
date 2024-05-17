@@ -8,7 +8,8 @@ import FirebaseState from './context/firebase/firebaseState';
 import PrestamoState from './context/prestamos/prestamosState';
 import BooksCatalog from './screens/BookCatalog';
 import BookDetail from './screens/BookDetail';
-import PrestarLibro from './screens/Prestar';
+import PrestarLibro from './screens/LendBook';
+import BorrowedBook from './screens/BorrowedBooks';
 
 const Stack = createStackNavigator();
 
@@ -54,6 +55,9 @@ const App = () => {
             />
             <Stack.Screen name="PrestarLibro" component={PrestarLibro} 
               options={{title: 'Prestamo de Libro'}} 
+            />
+             <Stack.Screen name="BorrowedBook" component={BorrowedBook} 
+              options={{title: 'Libros Prestados'}} 
             />
           </Stack.Navigator>
         </NavigationContainer>

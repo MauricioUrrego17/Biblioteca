@@ -1,4 +1,4 @@
-import { GUARGAR_PEDIDO, SELECCIONAR_LIBROS } from "../../types";
+import { GUARGAR_PEDIDO, SELECCIONAR_LIBROS, PRESTAR_LIBRO } from "../../types";
 
 export default (state, action) => {
 
@@ -13,6 +13,14 @@ export default (state, action) => {
             return{
                 ...state,
                 prestamo: action.payload
+            }
+
+        case PRESTAR_LIBRO:
+            return {
+                ...state,
+                prestamo: state.prestamo.map(libro =>
+                    libro.id === action.payload ? { ...libro, estado: false } : libro
+                )
             }
 
         default:
