@@ -26,13 +26,26 @@ const BooksCatalog = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <View style={styles.header}>
         <Searchbar
           placeholder="Buscar Libro"
           onChangeText={handleSearch}
           value={searchQuery}
           style={styles.searchBar}
         />
+        <Button
+          mode="contained-tonal"
+          buttonColor='#ffe29a'
+          textColor='white'
+          style={styles.headerButton}
+          onPress={() => {
+            navigation.navigate('BorrowedBook');
+          }}
+        >
+          <Text>Libros Prestados</Text>
+        </Button>
+      </View>
+      <ScrollView>
         {filteredCars.map((libro, index) => (
           <React.Fragment key={libro.id}>
             <Card key={libro.id} mode="outlined" style={styles.card}>
@@ -57,39 +70,38 @@ const BooksCatalog = () => {
             </Card>
           </React.Fragment>
         ))}
-        
-        <View style={styles.buttonContainer}>
-          <Button
-            mode="contained-tonal"
-            buttonColor='#ffe29a'
-            textColor='white'
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate('BorrowedBook');
-            }}
-          >
-            <Text>Libros Prestados</Text>
-          </Button>
-        </View>
       </ScrollView>
     </View>
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingTop: 10,
+  },
   searchBar: {
-    margin: 10,
+    flex: 1,
+    marginRight: 5,
     backgroundColor: '#fff',
-    color: '#411f2d'
+    color: '#411f2d',
+  },
+  headerButton: {
+    marginLeft: 10,
   },
   card: {
     margin: 10,
   },
   cardImage: {
     margin: 10,
+    height: 300,
   },
   button: {
     margin: 5,
@@ -100,13 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffe29a',
     elevation: 2,
     width: 250,
-    justifyContent: 'center'
-  },
-  buttonContainer: {
-    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 20,
   },
 });
 

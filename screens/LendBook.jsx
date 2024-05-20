@@ -14,6 +14,14 @@ const PrestarLibro = () => {
     const [apellidoEstudiante, setapellidoEstudiante] = useState('')
     const [identificaciónEstudiante, setidentificaciónEstudiante] = useState('')
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0'); // Los meses son 0-indexados
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     const libroPrestado = (nombreEstudiante, apellidoEstudiante, identificaciónEstudiante) => {
         Alert.alert('Prestar Libro',
         '¿Estas seguro que deseas prestar el libro?',
@@ -23,7 +31,7 @@ const PrestarLibro = () => {
                 //Crear un objeto con toda la informacion
                 const libroObj = {
                     devolucion: false,
-                    fechaPrestado: Date.now(),
+                    fechaPrestado: formatDate(Date.now()),
                     nombreLibro: nombre,
                     autorLibro: autor,
                     idLibro: id,

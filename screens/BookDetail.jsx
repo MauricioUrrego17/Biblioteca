@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Card, Text, Divider, Button } from 'react-native-paper';
 import PrestamoContext from '../context/prestamos/prestamosContext';
@@ -7,8 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const DetalleLibro = () => {
-  const { libro } = useContext(PrestamoContext);
-  const { imagen, autor, nombre, estado, sinopsis } = libro;
+  const { libro, eliminarLibro } = useContext(PrestamoContext);
+  const { imagen, autor, nombre, estado, sinopsis, id } = libro;
   const navigation = useNavigation();
 
   const ParseBooleanToString = (estado) => {
@@ -18,6 +18,30 @@ const DetalleLibro = () => {
         return 'No Disponible'
     }
   };
+
+  const confirmacionEliminar = (id) => {
+    Alert.alert('Eliminar Libro', '¿Seguro que quieres eliminar el libro?', [
+      {
+        text: 'Cancelar',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK', 
+        onPress: () => {
+        eliminarLibro(id)
+        Alert.alert('Libro eliminado', 'Libro eliminado de manera exitosa!', [
+          {
+            text: 'OK',
+          },
+        ]);
+        setTimeout(() => {
+          navigation.navigate('BooksCatalog');
+        }, 3000);
+      }
+      },
+    ]);
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -38,17 +62,26 @@ const DetalleLibro = () => {
             <Text variant="bodyLarge" style={styles.description}>
               {sinopsis}
             </Text>
-            {estado && (
-              <View style={styles.buttonContainer}>
+            <View style={styles.container}>
+              <View style={styles.buttonRow}>
+                {estado && (
+                  <Button
+                    style={styles.button}
+                    mode="contained"
+                    onPress={() => navigation.navigate('PrestarLibro')}
+                  >
+                    Prestar
+                  </Button>
+                )}
                 <Button
-                  style={styles.button}
+                  style={styles.buttonDelete}
                   mode="contained"
-                  onPress={() => navigation.navigate('PrestarLibro')}
+                  onPress={() => confirmacionEliminar(id)}
                 >
-                  Prestar
+                  Eliminar
                 </Button>
               </View>
-            )}    
+            </View>
           </Card.Content>
         </Card>
       </View>
@@ -71,7 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9FCFF',
   },
   cardCover: {
-    height: 200,
+    height: 300,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },
@@ -94,6 +127,11 @@ const styles = StyleSheet.create({
     color: '#555555',
     marginBottom: 16,
   },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -105,6 +143,15 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 24,
     backgroundColor: '#411f2d',
+    elevation: 2,
+  },
+  buttonDelete: {
+    margin: 1,
+    marginHorizontal: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 24,
+    backgroundColor: 'red',
     elevation: 2,
   },
 });
