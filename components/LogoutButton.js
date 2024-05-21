@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signOut } from 'firebase/auth';
+import { Alert } from 'react-native';
 
 const LogoutButton = () => {
     const navigation = useNavigation();
@@ -12,7 +13,16 @@ const LogoutButton = () => {
         signOut(auth)
             .then(() => {
                 console.log('Sesión cerrada');
-                navigation.navigate('Login');
+                Alert.alert('Sesion Cerrada', 'La sesion se ha cerrado de manera exitosa!',
+                    [
+                        {
+                            text: 'Ok',
+                            onPress:() => {
+                                navigation.navigate('Login');
+                            }
+                        }
+                    ]
+                )
             })
             .catch(error => {
                 console.error('Error al cerrar sesión', error);
