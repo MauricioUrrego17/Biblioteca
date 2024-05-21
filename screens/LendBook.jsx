@@ -78,8 +78,8 @@ const PrestarLibro = () => {
                 style={styles.input}
                 label="Nombre"
                 mode="outlined"
-                outlineColor="#3B63A8"
-                activeOutlineColor="#3B63A8"
+                outlineColor="#411f2d"
+                activeOutlineColor="#ffe29a"
                 keyboardType="ascii-capable"
                 value={nombreEstudiante}
                 onChangeText={setnombreEstudiante}
@@ -88,8 +88,8 @@ const PrestarLibro = () => {
                 style={styles.input}
                 label="Apellido"
                 mode="outlined"
-                outlineColor="#3B63A8"
-                activeOutlineColor="#3B63A8"
+                outlineColor="#411f2d"
+                activeOutlineColor="#ffe29a"
                 keyboardType="ascii-capable"
                 value={apellidoEstudiante}
                 onChangeText={setapellidoEstudiante}
@@ -98,8 +98,8 @@ const PrestarLibro = () => {
                 style={styles.input}
                 label="Número de identificación"
                 mode="outlined"
-                outlineColor="#3B63A8"
-                activeOutlineColor="#3B63A8"
+                outlineColor="#411f2d"
+                activeOutlineColor="#ffe29a"
                 keyboardType="numeric"
                 value={identificaciónEstudiante}
                 onChangeText={setidentificaciónEstudiante}

@@ -9,6 +9,7 @@ import BooksCatalog from './screens/BookCatalog';
 import BookDetail from './screens/BookDetail';
 import PrestarLibro from './screens/LendBook';
 import BorrowedBook from './screens/BorrowedBooks';
+import Login from './screens/Login';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ const App = () => {
       <PrestamoState>
         <NavigationContainer>
           <Stack.Navigator
+            initialRouteName='Login'
             screenOptions={{
               headerStyle:{
                 backgroundColor: '#ffe29a'
@@ -44,7 +46,7 @@ const App = () => {
               //Se ha habilitado la navegación por gestos deslizando horizontalmente.
               gestureEnabled: true,
               gestureDirection: 'horizontal',
-              headerTitleAlign: 'left'
+              headerTitleAlign: 'center'
             }}>
             <Stack.Screen name="BooksCatalog" component={BooksCatalog} 
               options={{title: 'Catalogo de Libros'}} 
@@ -57,6 +59,9 @@ const App = () => {
             />
              <Stack.Screen name="BorrowedBook" component={BorrowedBook} 
               options={{title: 'Libros Prestados'}} 
+            />
+             <Stack.Screen name="Login" component={Login} 
+              options={{title: 'Bienvenido a BiblioTech'}} 
             />
           </Stack.Navigator>
         </NavigationContainer>

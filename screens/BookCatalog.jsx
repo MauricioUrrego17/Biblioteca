@@ -11,8 +11,13 @@ const BooksCatalog = () => {
   const { seleccionarLibro } = useContext(PrestamoContext);
   const navigation = useNavigation();
 
+ 
   useEffect(() => {
     obtenerLibros();
+
+    navigation.setOptions({
+      headerLeft: () => null
+    });
   }, []);
 
   const filteredCars = librosCatalogo.filter((libro) =>
