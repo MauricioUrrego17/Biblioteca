@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Card, Text, Divider, Button, TextInput } from 'react-native-paper';
 import PrestamoContext from '../context/prestamos/prestamosContext';
 import { useNavigation } from '@react-navigation/native';
 import firebase from '../firebaseDB';
+import LogoutButton from '../components/LogoutButton';
 
 const PrestarLibro = () => {
     const { libro, prestarLibro } = useContext(PrestamoContext);
@@ -13,6 +14,12 @@ const PrestarLibro = () => {
     const [nombreEstudiante, setnombreEstudiante] = useState('')
     const [apellidoEstudiante, setapellidoEstudiante] = useState('')
     const [identificaciónEstudiante, setidentificaciónEstudiante] = useState('')
+
+    useEffect(() => {
+        navigation.setOptions({
+          headerRight: () => <LogoutButton /> 
+        });
+      }, []);
 
     const formatDate = (date) => {
         const d = new Date(date);

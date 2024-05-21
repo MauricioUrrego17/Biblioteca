@@ -46,7 +46,7 @@ const App = () => {
               //Se ha habilitado la navegación por gestos deslizando horizontalmente.
               gestureEnabled: true,
               gestureDirection: 'horizontal',
-              headerTitleAlign: 'center'
+              headerTitleAlign: 'left'
             }}>
             <Stack.Screen name="BooksCatalog" component={BooksCatalog} 
               options={{title: 'Catalogo de Libros'}} 

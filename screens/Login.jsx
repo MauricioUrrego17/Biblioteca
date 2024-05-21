@@ -21,6 +21,8 @@ const Login = () => {
             .then(() => {
                 console.log('Inicio de Sesion Exitoso');
                 setError("");
+                setEmail("");
+                setPassword("");
                 navigation.navigate('BooksCatalog');
             })
             .catch(error => {
@@ -57,7 +59,7 @@ const Login = () => {
             <View style={styles.buttonContainer}>
                 <Button
                     mode="contained"
-                    onPress={handleSignIn}
+                    onPress={handleSignIn}   
                     style={styles.button}
                 >
                     Iniciar Sesion

@@ -1,15 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Card, Text, Divider, Button } from 'react-native-paper';
 import PrestamoContext from '../context/prestamos/prestamosContext';
 import { useNavigation } from '@react-navigation/native';
-
+import LogoutButton from '../components/LogoutButton';
 
 const DetalleLibro = () => {
   const { libro, eliminarLibro } = useContext(PrestamoContext);
   const { imagen, autor, nombre, estado, sinopsis, id } = libro;
   const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <LogoutButton /> 
+    });
+  }, []);
 
   const ParseBooleanToString = (estado) => {
     if(estado === true){

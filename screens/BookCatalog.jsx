@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { Avatar, Button, Card, Text, Searchbar, Title } from 'react-native-paper';
 import FirebaseContext from '../context/firebase/firebaseContext';
 import PrestamoContext from '../context/prestamos/prestamosContext';
+import LogoutButton from '../components/LogoutButton';
 
 const BooksCatalog = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,7 +17,8 @@ const BooksCatalog = () => {
     obtenerLibros();
 
     navigation.setOptions({
-      headerLeft: () => null
+      headerLeft: () => null,
+      headerRight: () => <LogoutButton /> 
     });
   }, []);
 
