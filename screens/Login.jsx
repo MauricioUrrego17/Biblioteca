@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { TextInput, Button, Text } from 'react-native-paper';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
@@ -33,6 +33,10 @@ const Login = () => {
 
     return (
         <View style={styles.container}>
+
+            <Image source={require('../assets/library.png')}
+            style={styles.profileImage}/>
+
             <TextInput
                 label="Email"
                 value={email}
@@ -98,7 +102,13 @@ const styles = StyleSheet.create({
         color: 'red',
         marginBottom: 16,
         textAlign: "center"
-    }
+    },
+    profileImage: {
+        width: 200, 
+        height: 200, 
+        marginBottom: 20, 
+        alignSelf: 'center'
+    },
 });
 
 export default Login;
