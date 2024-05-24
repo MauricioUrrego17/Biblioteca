@@ -5,6 +5,7 @@ import { Avatar, Button, Card, Text, Searchbar, Title } from 'react-native-paper
 import FirebaseContext from '../context/firebase/firebaseContext';
 import PrestamoContext from '../context/prestamos/prestamosContext';
 import LogoutButton from '../components/LogoutButton';
+import AgregarLibros from '../components/agregarLibros';
 
 const BooksCatalog = () => {
   const [searchQuery, setSearchQuery] = useState('');
